@@ -34,6 +34,6 @@ public class FinalProjectController {
     
     @GetMapping("/getPlayers")
     public String getPlayers() {
-        
+        return "";
     }
 }

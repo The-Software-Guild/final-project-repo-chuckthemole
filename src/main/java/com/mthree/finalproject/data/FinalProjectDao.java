@@ -5,10 +5,13 @@
  */
 package com.mthree.finalproject.data;
 
+import com.mthree.finalproject.models.Player;
+
 /**
  *
  * @author chuck
  */
 public interface FinalProjectDao {
     boolean loadPlayersApiCall();
+    Player getPlayer(int id);
 }

@@ -6,6 +6,7 @@
 package com.mthree.finalproject.service;
 
 import com.mthree.finalproject.data.FinalProjectDao;
+import com.mthree.finalproject.models.Player;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -19,6 +20,11 @@ public class FinalProjectServiceLayerImpl implements FinalProjectServiceLayer {
 
     public FinalProjectServiceLayerImpl(FinalProjectDao dao) {
         this.dao = dao;
+    }
+
+    @Override
+    public Player getPlayer(int id) {
+        return dao.getPlayer(id);
     }
 
 }

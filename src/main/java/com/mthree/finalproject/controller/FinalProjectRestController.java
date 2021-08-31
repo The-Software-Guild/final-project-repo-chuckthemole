@@ -5,8 +5,11 @@
  */
 package com.mthree.finalproject.controller;
 
+import com.mthree.finalproject.models.Player;
 import com.mthree.finalproject.service.FinalProjectServiceLayer;
 import com.mthree.finalproject.ui.FinalProjectView;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +37,13 @@ public class FinalProjectRestController {
     
     @GetMapping("/getPlayers")
     public String getPlayers() {
-        
+        return "";
+    }
+    
+    @GetMapping("/getPlayer")
+    public List<Player> getPlayer() {
+        List<Player> players = new ArrayList<>();
+        players.add(service.getPlayer(1));
+        return players;
     }
 }

@@ -5,10 +5,12 @@
  */
 package com.mthree.finalproject.service;
 
+import com.mthree.finalproject.models.Player;
+
 /**
  *
  * @author chuck
  */
 public interface FinalProjectServiceLayer {
-    
+    Player getPlayer(int id);
 }

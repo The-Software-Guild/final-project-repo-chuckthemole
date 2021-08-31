@@ -5,11 +5,16 @@
  */
 package com.mthree.finalproject.models;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  *
  * @author Chuck
  */
 public class Player {
+    Map<String, Object> details;
     private int id;
     private String firstName;
     private String lastName;
@@ -22,16 +27,17 @@ public class Player {
     public Player() {}
     
     public Player(
-            int id, String firstName, String lastName, int heightFeet, 
-            int heightInches, String position, Team team, int weightPounds) {
+            int id, String first_name, String last_name, int height_feet, 
+            int height_inches, String position, Team team, int weight_pounds) {
+        details = new LinkedHashMap<>();
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.heightFeet = heightFeet;
-        this.heightInches = heightInches;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.heightFeet = height_feet;
+        this.heightInches = height_inches;
         this.position = position;
         this.team = team; 
-        this.weightPounds = weightPounds;       
+        this.weightPounds = weight_pounds;       
     }
     
     public int getId() {
@@ -42,35 +48,36 @@ public class Player {
         this.id = id;
     }
     
-    public String getFirstName() {
+    public String getFirst_name() {
         return this.firstName;
     }
     
-    public void setFirstName(String firstName) {
+    public void setFirst_name(String firstName) {
         this.firstName = firstName;
     }
     
-    public String getLastName() {
+    
+    public String getLast_name() {
         return this.lastName;
     }
     
-    public void setLastName(String lastName) {
+    public void setLast_name(String lastName) {
         this.lastName = lastName;
     }
     
-    public int getHeightFeet() {
+    public int getHeight_feet() {
         return this.heightFeet;
     }
     
-    public void setHeightFeet(int heightFeet) {
+    public void setHeight_feet(int heightFeet) {
         this.heightFeet = heightFeet;
     }
     
-    public int getHeightInches() {
+    public int getHeight_inches() {
         return this.heightInches;
     }
     
-    public void setHeightInches(int heightInches) {
+    public void setHeight_inches(int heightInches) {
         this.heightInches = heightInches;
     }
     
@@ -90,93 +97,11 @@ public class Player {
         this.team = team;
     }
     
-    public int getWeightPounds() {
+    public int getWeight_pounds() {
         return this.weightPounds;
     }
     
-    public void setWeightPounds(int weightPounds) {
+    public void setWeight_pounds(int weightPounds) {
         this.weightPounds = weightPounds;
-    }
-    
-    public class Team {
-        private int id;
-        private String abbreviation;
-        private String city;
-        private String conference;
-        private String division;
-        private String fullName;
-        private String name;
-        
-        public Team() {}
-        
-        public Team( 
-                int id, String abbreviation, String city,
-                String conference, String division, String fullName,
-                String name) {
-            this.id = id;
-            this.abbreviation = abbreviation;
-            this.city = city;
-            this.conference = conference;
-            this.division = division;
-            this.fullName = fullName;
-            this.name = name;            
-        }
-        
-        public int getId() {
-            return this.id;
-        }
-        
-        public void setId(int id) {
-            this.id = id;
-        }
-        
-        public String getAbbreviation() {
-            return this.abbreviation;
-        }
-        
-        public void setAbbreviation(String abbreviation) {
-            this.abbreviation = abbreviation;
-        }
-        
-        public String getCity() {
-            return this.city;
-        }
-        
-        public void setCity(String city) {
-            this.city = city;
-        }
-        
-        public String getConference() {
-            return this.conference;
-        }
-        
-        public void setConference(String conference) {
-            this.conference = conference;
-        }
-        
-        public String getDivision() {
-            return this.division;
-        }
-        
-        public void setDivision(String division) {
-            this.division = division;
-        }
-        
-        public String getFullName() {
-            return this.fullName;
-        }
-        
-        public void setFullName(String fullName) {
-            this.fullName = fullName;
-        }
-        
-        public String getName() {
-            return this.name;
-        }
-        
-        public void setName(String name) {
-            this.name = name;
-        }
-        
     }
 }
