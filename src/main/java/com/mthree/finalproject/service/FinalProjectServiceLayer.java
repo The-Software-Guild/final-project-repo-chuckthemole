@@ -6,6 +6,7 @@
 package com.mthree.finalproject.service;
 
 import com.mthree.finalproject.models.Player;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,6 @@ import com.mthree.finalproject.models.Player;
  */
 public interface FinalProjectServiceLayer {
     Player getPlayer(int id);
+    List<Player> getPlayers();
+    List<Player> getPlayersByName(String firstName);
 }

@@ -11,6 +11,7 @@ import com.mthree.finalproject.ui.FinalProjectView;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,15 +36,19 @@ public class FinalProjectRestController {
         return "index";
     }
     
-    @GetMapping("/getPlayers")
-    public String getPlayers() {
-        return "";
+    @GetMapping("/getPlayer/{id}")
+    public Player getPlayer(@PathVariable int id) {
+        return service.getPlayer(id);
     }
     
-    @GetMapping("/getPlayer")
-    public List<Player> getPlayer() {
-        List<Player> players = new ArrayList<>();
-        players.add(service.getPlayer(1));
-        return players;
+    @GetMapping("/players")
+    public List<Player> getPlayers() {
+        return service.getPlayers();
     }
+    
+    @GetMapping("/player/{name}")
+    public List<Player> getPlayerByFirstName(@PathVariable String name) {
+        return service.getPlayersByName(name);
+    }
+    
 }

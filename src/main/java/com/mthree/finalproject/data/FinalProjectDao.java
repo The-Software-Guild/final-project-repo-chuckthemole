@@ -6,6 +6,7 @@
 package com.mthree.finalproject.data;
 
 import com.mthree.finalproject.models.Player;
+import java.util.List;
 
 /**
  *
@@ -14,4 +15,6 @@ import com.mthree.finalproject.models.Player;
 public interface FinalProjectDao {
     boolean loadPlayersApiCall();
     Player getPlayer(int id);
+    public List<Player> getPlayers();
+    List<Player> getPlayersByName(String name);
 }
