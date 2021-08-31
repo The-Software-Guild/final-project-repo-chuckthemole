@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Test</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th> Location </th>
+                    <th> Latitude </th>
+                    <th> Longitude </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${locations.empty}">
+                    <td colspan="2"> No Locations </td>
+                </tr>
+                <tr th:each="location : ${locations}">
+                    <td><span th:text="${location.id}"> Latitude </span></td>
+                    <td><span th:text="${location.latitude}"> Latitude </span></td>
+                    <td><span th:text="${location.longitude}"> Longitude </span></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

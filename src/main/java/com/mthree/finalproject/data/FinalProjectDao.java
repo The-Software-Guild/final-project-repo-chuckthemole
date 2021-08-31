@@ -10,5 +10,5 @@ package com.mthree.finalproject.data;
  * @author chuck
  */
 public interface FinalProjectDao {
-    
+    boolean loadPlayersApiCall();
 }

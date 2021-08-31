@@ -1,0 +1,29 @@
+$(document).ready(function(e){
+    var banner = '<h1>Choose a Location to add for your sighting</h1>';
+    var div = $('#banner');
+    div.html("");
+    div.append(banner);
+    
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8081/api/superhero/getLocations',
+        success: function(array) {
+            var displayAllDiv = $('#displayAll');
+            displayAllDiv.html("");
+
+            $.each(array, function(index, location) {
+                var superInfo = '<p>';
+                superInfo += 'Latitude: ' + location.latitude + '<br>';
+                superInfo += 'Longitude: ' + location.longitude + '<br>';
+                superInfo += '<form method="POST" action="/superhero/editSightingLocation/' + location.id + '" th:action="@{/superhero/editSightingLocation/}" th:object="${location}">';
+                superInfo += '<button type="submit" name="submit" value="value" class="btn btn-info">Add</button><br></form>';
+                superInfo += '</p><hr>';
+                
+                displayAllDiv.append(superInfo);
+            })
+        },
+        error: function() {
+            alert('FAILURE!');
+        }
+    })
+});

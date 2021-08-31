@@ -5,10 +5,31 @@
  */
 package com.mthree.finalproject.data;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author chuck
  */
-public class FinalProjectDataBaseDao {
+
+@Repository
+@Profile("database")
+public class FinalProjectDatabaseDao implements FinalProjectDao {
+    private final JdbcTemplate jdbcTemplate;
+    
+    @Autowired
+    public FinalProjectDatabaseDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public boolean loadPlayersApiCall() {
+        
+        return false;
+    }
+    
     
 }

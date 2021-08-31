@@ -5,10 +5,20 @@
  */
 package com.mthree.finalproject.service;
 
+import com.mthree.finalproject.data.FinalProjectDao;
+import org.springframework.context.annotation.Configuration;
+
 /**
  *
  * @author chuck
  */
-public class FinalProjectServiceLayerImpl {
-    
+
+@Configuration
+public class FinalProjectServiceLayerImpl implements FinalProjectServiceLayer {
+    FinalProjectDao dao;
+
+    public FinalProjectServiceLayerImpl(FinalProjectDao dao) {
+        this.dao = dao;
+    }
+
 }

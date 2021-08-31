@@ -7,22 +7,22 @@ package com.mthree.finalproject.controller;
 
 import com.mthree.finalproject.service.FinalProjectServiceLayer;
 import com.mthree.finalproject.ui.FinalProjectView;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author chuck
+ * @author Chuck
  */
 
-@Controller
-@RequestMapping("/basketball")
-public class FinalProjectController {
+@RestController
+@RequestMapping("/api/basketball")
+public class FinalProjectRestController {
     private FinalProjectView view;
     private FinalProjectServiceLayer service;
 
-    public FinalProjectController(FinalProjectServiceLayer service, FinalProjectView view) {
+    public FinalProjectRestController(FinalProjectServiceLayer service, FinalProjectView view) {
         this.service = service;
         this.view = view;
     }
@@ -30,5 +30,10 @@ public class FinalProjectController {
     @GetMapping("/")
     public String index() {
         return "index";
+    }
+    
+    @GetMapping("/getPlayers")
+    public String getPlayers() {
+        
     }
 }

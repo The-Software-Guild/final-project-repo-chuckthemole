@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Test</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th> Heroes And Villains </th>
+                    <th> Is Hero </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${heroesAndVillains.empty}">
+                    <td colspan="2"> No Heroes or Villains Available </td>
+                </tr>
+                <tr th:each="heroVillain : ${heroesAndVillains}">
+                    <td><span th:text="${heroVillain.name}"> Name </span></td>
+                    <td><span th:text="${heroVillain.isHero}"> Is Hero </span></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
