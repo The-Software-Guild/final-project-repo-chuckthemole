@@ -50,5 +50,4 @@ public class FinalProjectRestController {
     public List<Player> getPlayerByFirstName(@PathVariable String name) {
         return service.getPlayersByName(name);
     }
-    
 }
