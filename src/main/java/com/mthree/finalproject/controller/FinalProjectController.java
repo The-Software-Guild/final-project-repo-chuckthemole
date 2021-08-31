@@ -31,4 +31,9 @@ public class FinalProjectController {
     public String index() {
         return "index";
     }
+    
+    @GetMapping("/getPlayers")
+    public String getPlayers() {
+        
+    }
 }

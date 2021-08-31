@@ -46,7 +46,7 @@ public class Player {
         return this.firstName;
     }
     
-    public void setFirstName() {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
     
@@ -54,7 +54,7 @@ public class Player {
         return this.lastName;
     }
     
-    public void setLastName() {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
     
