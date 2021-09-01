@@ -64,4 +64,9 @@ public class FinalProjectRestController {
         return service.getPlayerStatsForSeason(playerId, season);
     }
     
+    @GetMapping("statById/{id}")
+    public Stats getStats(@PathVariable int id) {
+        return service.getStats(id);
+    }
+    
 }

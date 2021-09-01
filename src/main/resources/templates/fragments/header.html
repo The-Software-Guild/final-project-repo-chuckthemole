@@ -5,11 +5,17 @@
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="btn btn-outline-primary btn-lg" href="/" th:href="@{/}">Home</a>
+        <div class="container">
+          <div class="navbar-header">
+            <a class="btn btn-outline-primary btn-lg" href="/" th:href="@{/basketball/player}">NBA Stats</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
+        
     </div>
   </body>
 </html>

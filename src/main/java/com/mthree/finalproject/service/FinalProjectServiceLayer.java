@@ -15,6 +15,7 @@ import java.util.List;
  */
 public interface FinalProjectServiceLayer {
     Player getPlayer(int id);
+    Stats getStats(int id);
     List<Player> getPlayers();
     List<Player> getPlayersByName(String firstName);
     List<Stats> getPlayerStats(int id);

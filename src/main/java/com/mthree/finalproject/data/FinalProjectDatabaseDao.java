@@ -20,14 +20,21 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mthree.finalproject.models.Stats;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import kong.unirest.GetRequest;
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 /**
  *
@@ -39,11 +46,27 @@ import kong.unirest.json.JSONObject;
 public class FinalProjectDatabaseDao implements FinalProjectDao {
     private final JdbcTemplate jdbcTemplate;
     private ObjectMapper objectMapper;
+    private List<List<Stats>> recentStats;
+    private Map<Integer, String> recentPlayerIds;
     
     @Autowired
     public FinalProjectDatabaseDao(JdbcTemplate jdbcTemplate) {
         this.objectMapper = new ObjectMapper();
         this.jdbcTemplate = jdbcTemplate;
+        
+        recentStats = new ArrayList<>();
+        recentPlayerIds = new HashMap<>();
+        loadRecentPlayers();
+    }
+    
+    private void loadRecentPlayers() {
+        final String sql = 
+                "SELECT id, playerYear FROM player;";
+        //recentPlayerIds = jdbcTemplate.queryForList(sql, Map<Integer, String>);
+        List<Map<Integer, String>> list = jdbcTemplate.query(sql, new RecentPlayerMapper());
+        list.forEach(item -> {
+            recentPlayerIds.putAll(item);
+        });
     }
 
     @Override
@@ -72,6 +95,25 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
         }
         
         return player;
+    }
+    
+    @Override
+    public Stats getStats(int id) {
+        kong.unirest.HttpResponse<String> response = Unirest.get("https://free-nba.p.rapidapi.com/stats?id=" + id)
+            .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
+            .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
+            .asString();
+        
+        Stats stats = new Stats();
+        try {
+            System.out.println("*****" + response.getBody());
+            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            stats = objectMapper.readValue(response.getBody(), Stats.class);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(FinalProjectDatabaseDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return stats;
     }
     
     @Override 
@@ -182,8 +224,48 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
                 System.out.println("**************" + e);
             }
         }
-       
+        
         return statsList;
+    }
+    
+    @Override
+    public Stats addStats(Stats stats) {
+        final String sql = "INSERT INTO stats(id, statsPlayer, statsDate) VALUES(?, ?, ?);";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update((Connection conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement(
+                sql, 
+                Statement.RETURN_GENERATED_KEYS);
+            
+            statement.setInt(1, stats.getId());
+            statement.setInt(2, stats.getPlayer().getId());
+            statement.setDate(1, Date.valueOf(stats.getGame().getDate()));
+            return statement;
+
+        }, keyHolder);
+
+        return stats;
+    }
+    
+    @Override
+    public Player addPlayer(Player player) {
+        final String sql = "INSERT INTO player(id) VALUES(?);";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update((Connection conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement(
+                sql, 
+                Statement.RETURN_GENERATED_KEYS);
+            
+            statement.setInt(1, player.getId());
+            return statement;
+
+        }, keyHolder);
+
+        return player;
     }
 
     @Override
@@ -229,7 +311,20 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
             }
         }
         
+        recentStats.add(statsList);
+        addPlayer(statsList.get(0).getPlayer());
+        
         return statsList;    
+    }
+    
+    private static final class RecentPlayerMapper 
+            implements RowMapper<Map<Integer, String>> {
+        @Override
+        public Map<Integer, String> mapRow(ResultSet rs, int i) throws SQLException {
+            Map<Integer, String> map = new HashMap<>();
+            map.put(rs.getInt("id"), rs.getString("playerYear"));
+            return map;
+        }
     }
     
     private static final class PlayerMapper 

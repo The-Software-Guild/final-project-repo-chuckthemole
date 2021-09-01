@@ -20,4 +20,7 @@ public interface FinalProjectDao {
     List<Player> getPlayersByName(String name);
     List<Stats> getPlayerStats(int id);
     List<Stats> getPlayerStatsForSeason(int playerId, int season);
+    Stats addStats(Stats stats);
+    Player addPlayer(Player player);
+    Stats getStats(int id);
 }
