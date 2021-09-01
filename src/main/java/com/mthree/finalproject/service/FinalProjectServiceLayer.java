@@ -18,4 +18,5 @@ public interface FinalProjectServiceLayer {
     List<Player> getPlayers();
     List<Player> getPlayersByName(String firstName);
     List<Stats> getPlayerStats(int id);
+    List<Stats> getPlayerStatsForSeason(int playerId, int season);
 }

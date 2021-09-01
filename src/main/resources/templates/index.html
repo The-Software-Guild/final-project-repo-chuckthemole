@@ -5,37 +5,37 @@
 window.onload = function() {
 
 var dataPoints = [];
+var chart;
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	theme: "light2",
-	title: {
-		text: "Daily Sales Data"
-	},
-	axisY: {
-		title: "Units",
-		titleFontSize: 24,
-		includeZero: true
-	},
-	data: [{
-		type: "column",
-		yValueFormatString: "#,### Units",
-		dataPoints: dataPoints
-	}]
+chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light2",
+    title: {
+        text: "Points for Season"
+    },
+    axisY: {
+        title: "Points",
+        titleFontSize: 24,
+        includeZero: true
+    },
+    data: [{
+        type: "column",
+        yValueFormatString: "#,### Points",
+        dataPoints: dataPoints
+    }]
 });
 
 function addData(data) {
-	for (var i = 0; i < data.length; i++) {
-		dataPoints.push({
-			x: new Date(data[i].date),
-			y: data[i].units
-		});
-	}
-	chart.render();
-
+    for (var i = 0; i < data.length; i++) {
+        dataPoints.push({
+            x: new Date(data[i].game.date),
+            y: data[i].pts
+        });
+    }
+    chart.render();
 }
 
-$.getJSON("https://canvasjs.com/data/gallery/javascript/daily-sales-data.json", addData);
+$.getJSON("http://localhost:8081/api/basketball/stats/115/2020", addData);
 
 }
 </script>

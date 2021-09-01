@@ -104,4 +104,9 @@ public class Player {
     public void setWeight_pounds(int weightPounds) {
         this.weightPounds = weightPounds;
     }
+    
+        @Override 
+    public String toString() {
+        return this.firstName + " " + this.lastName + "\n";
+    }
 }

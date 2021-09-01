@@ -252,4 +252,15 @@ public class Stats {
         this.player = player;
     }
     
+    @Override 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Player: ")
+                .append(player.toString())
+                .append("\nGame: ")
+                .append(game.toString())
+                .append("\nTeam: ")
+                .append(team.toString());
+        return sb.toString();
+    }  
 }

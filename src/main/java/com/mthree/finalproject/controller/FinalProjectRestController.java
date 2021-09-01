@@ -56,4 +56,12 @@ public class FinalProjectRestController {
     public List<Stats> getPlayerStats(@PathVariable int id) {
         return service.getPlayerStats(id);
     }
+    
+    @GetMapping("/stats/{playerId}/{season}")
+    public List<Stats> getPlayerStatsForSeason(
+            @PathVariable int playerId,
+            @PathVariable int season) {
+        return service.getPlayerStatsForSeason(playerId, season);
+    }
+    
 }

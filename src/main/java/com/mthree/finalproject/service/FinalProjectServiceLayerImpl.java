@@ -44,4 +44,9 @@ public class FinalProjectServiceLayerImpl implements FinalProjectServiceLayer {
         return dao.getPlayerStats(id);
     }
 
+    @Override
+    public List<Stats> getPlayerStatsForSeason(int playerId, int season) {
+        return dao.getPlayerStatsForSeason(playerId, season);
+    }
+
 }

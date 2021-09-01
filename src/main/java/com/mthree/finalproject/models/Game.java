@@ -132,4 +132,9 @@ public class Game {
     public void setVisitor_team(Team visitor_team) {
         this.visitor_team = visitor_team;
     }
+    
+    @Override 
+    public String toString() {
+        return this.date + "\n";
+    }
 }

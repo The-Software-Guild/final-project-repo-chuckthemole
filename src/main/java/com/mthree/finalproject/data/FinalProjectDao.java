@@ -19,4 +19,5 @@ public interface FinalProjectDao {
     public List<Player> getPlayers();
     List<Player> getPlayersByName(String name);
     List<Stats> getPlayerStats(int id);
+    List<Stats> getPlayerStatsForSeason(int playerId, int season);
 }

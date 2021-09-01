@@ -185,6 +185,52 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
        
         return statsList;
     }
+
+    @Override
+    public List<Stats> getPlayerStatsForSeason(int playerId, int season) {
+        kong.unirest.HttpResponse<String> response = 
+                Unirest.get("https://free-nba.p.rapidapi.com/stats?seasons[]=" + 
+                        season + "&player_ids[]=" + playerId + "&per_page=20")
+                        .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
+                        .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
+                        .asString(); 
+        String total_pages = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_pages");
+        int pages = Integer.parseInt(total_pages);
+        String total_count = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_count");
+        int count = Integer.parseInt(total_count);
+        
+        List<Stats> statsList = new ArrayList<>();
+        for (int j = 0; j < pages; j++) {
+            try {
+                response = 
+                    Unirest.get("https://free-nba.p.rapidapi.com/stats?seasons[]=" + 
+                            season + "&player_ids[]=" + playerId + "&per_page=20&page=" + j)
+                            .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
+                            .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
+                            .asString();
+
+                JSONObject obj = new JSONObject(response.getBody());
+                JSONArray arr = obj.getJSONArray("data");
+
+                for (int i = 0; i < arr.length(); i++) {
+                    Stats stats = new Stats();
+                    try {
+                        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                        stats = objectMapper.readValue(arr.get(i).toString(), Stats.class);
+                        statsList.add(stats);
+                    } catch (JsonProcessingException ex) {
+                        Logger.getLogger(FinalProjectDatabaseDao.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (kong.unirest.json.JSONException e) {
+                System.out.println("**************" + e);
+            } catch (java.lang.NullPointerException ex) {
+                System.out.println("!!!!!!!!!!!!!!" + ex);
+            }
+        }
+        
+        return statsList;    
+    }
     
     private static final class PlayerMapper 
             implements RowMapper<Player> {
