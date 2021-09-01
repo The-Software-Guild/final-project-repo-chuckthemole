@@ -37,7 +37,13 @@ public class FinalProjectController {
     
     @GetMapping("/")
     public String index() {
-        return "getPlayer";
+        return "index";
+    }
+    
+    @GetMapping("basketball")
+    public String index(Model model) {
+        model.addAttribute("player", new Player());
+        return "index";
     }
     
     @GetMapping("/getPlayers")

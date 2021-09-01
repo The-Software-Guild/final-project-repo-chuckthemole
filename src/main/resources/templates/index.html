@@ -1,48 +1,59 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<script>
-window.onload = function() {
+<!DOCTYPE html>
 
-var dataPoints = [];
-var chart;
+<html xmlns:th="http://www.thymeleaf.org">
 
-chart = new CanvasJS.Chart("chartContainer", {
-    animationEnabled: true,
-    theme: "light2",
-    title: {
-        text: "Points for Season"
-    },
-    axisY: {
-        title: "Points",
-        titleFontSize: 24,
-        includeZero: true
-    },
-    data: [{
-        type: "column",
-        yValueFormatString: "#,### Points",
-        dataPoints: dataPoints
-    }]
-});
+  <head>
+    <title>NBA Stats</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/stsm.css" th:href="@{/css/stsm.css}"/>
+    
+  </head>
 
-function addData(data) {
-    for (var i = 0; i < data.length; i++) {
-        dataPoints.push({
-            x: new Date(data[i].game.date),
-            y: data[i].pts
-        });
-    }
-    chart.render();
-}
+  <body>
 
-$.getJSON("http://localhost:8081/api/basketball/stats/115/2020", addData);
+    <div>
+      <img src="/images/stsmlogo.png" alt="STSM logo" title="STSM logo" 
+           th:src="@{/images/nbastats.PNG}" th:alt-title="#{title.application}" width="400" height="210"/>
+    </div>
+      
+    <div>
+    
+      <h2>Find new NBA Player</h2>
+      
+      <form action="#" th:action="@{/basketball/createPlayer/}" method="POST" th:object="${player}">
+    
+        <fieldset>
+          
+          <legend>Enter Data</legend>
 
-}
-</script>
-</head>
-<body>
-<div id="chartContainer" style="height: 300px; width: 100%;"></div>
-<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</body>
+          <ul th:if="${#fields.hasErrors('*')}" class="errorlist">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+          </ul>
+
+          
+          <div>
+            <label for="first_name">
+              <span>First Name</span>
+            </label>
+            <input type="text" th:field="*{first_name}" />
+          </div>
+          
+          <div>
+            <label for="last_name">
+              <span>Last Name</span>
+            </label>
+            <input type="text" th:field="*{last_name}" />
+          </div>
+
+          <div class="submit">
+            <button type="submit" name="save">Find Player</button>    
+          </div>
+        
+        </fieldset>
+          
+      </form>
+ 
+    </div>
+
+  </body>
 </html>
