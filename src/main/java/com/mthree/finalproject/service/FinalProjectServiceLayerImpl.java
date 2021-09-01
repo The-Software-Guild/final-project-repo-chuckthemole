@@ -7,6 +7,7 @@ package com.mthree.finalproject.service;
 
 import com.mthree.finalproject.data.FinalProjectDao;
 import com.mthree.finalproject.models.Player;
+import com.mthree.finalproject.models.Stats;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,6 +37,11 @@ public class FinalProjectServiceLayerImpl implements FinalProjectServiceLayer {
     @Override
     public List<Player> getPlayersByName(String firstName) {
         return dao.getPlayersByName(firstName);
+    }
+
+    @Override
+    public List<Stats> getPlayerStats(int id) {
+        return dao.getPlayerStats(id);
     }
 
 }

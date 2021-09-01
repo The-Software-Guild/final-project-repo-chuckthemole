@@ -6,6 +6,7 @@
 package com.mthree.finalproject.controller;
 
 import com.mthree.finalproject.models.Player;
+import com.mthree.finalproject.models.Stats;
 import com.mthree.finalproject.service.FinalProjectServiceLayer;
 import com.mthree.finalproject.ui.FinalProjectView;
 import java.util.ArrayList;
@@ -49,5 +50,10 @@ public class FinalProjectRestController {
     @GetMapping("/player/{name}")
     public List<Player> getPlayerByFirstName(@PathVariable String name) {
         return service.getPlayersByName(name);
+    }
+    
+    @GetMapping("/stats/{id}")
+    public List<Stats> getPlayerStats(@PathVariable int id) {
+        return service.getPlayerStats(id);
     }
 }

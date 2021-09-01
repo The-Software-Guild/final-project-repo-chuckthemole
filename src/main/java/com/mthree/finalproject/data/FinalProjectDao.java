@@ -6,6 +6,7 @@
 package com.mthree.finalproject.data;
 
 import com.mthree.finalproject.models.Player;
+import com.mthree.finalproject.models.Stats;
 import java.util.List;
 
 /**
@@ -17,4 +18,5 @@ public interface FinalProjectDao {
     Player getPlayer(int id);
     public List<Player> getPlayers();
     List<Player> getPlayersByName(String name);
+    List<Stats> getPlayerStats(int id);
 }
