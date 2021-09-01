@@ -104,19 +104,18 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
     
     @Override
     public List<Player> getPlayers() {
-        List<Player> players = new ArrayList<>();
         kong.unirest.HttpResponse<String> response = 
                     Unirest.get("https://free-nba.p.rapidapi.com/players?per_page=20")
                     .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
                     .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
                     .asString();  
-            String total_pages = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_pages");
-            int pages = Integer.parseInt(total_pages);
-            String total_count = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_count");
-            int count = Integer.parseInt(total_count);
-            
-            System.out.println("********************" + pages);
+        String total_pages = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_pages");
+        int pages = Integer.parseInt(total_pages);
+        String total_count = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_count");
+        int count = Integer.parseInt(total_count);
+        // System.out.println("********************" + pages);
         
+        List<Player> players = new ArrayList<>();
         for (int j = 0; j < pages; j++) {
             try {
                 response = 
@@ -147,37 +146,42 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
     
     @Override
     public List<Stats> getPlayerStats(int id) {
-        kong.unirest.HttpResponse<String> response = Unirest.get(
-                "https://free-nba.p.rapidapi.com/stats?player_ids[]=1&per_page=20")
-            .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
-            .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
-            .asString();
-        
-        JSONObject obj = new JSONObject(response.getBody());
-        JSONArray arr = obj.getJSONArray("data");
-        // System.out.println("**" + arr.toString());
+        kong.unirest.HttpResponse<String> response = 
+                Unirest.get("https://free-nba.p.rapidapi.com/stats?player_ids[]=" + id + "&per_page=20")
+                .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
+                .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
+                .asString(); 
+        String total_pages = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_pages");
+        int pages = Integer.parseInt(total_pages);
+        String total_count = (new JSONObject(response.getBody())).getJSONObject("meta").getString("total_count");
+        int count = Integer.parseInt(total_count);
         
         List<Stats> statsList = new ArrayList<>();
-        for (int i = 0; i < arr.length(); i++) {
-            /*
-            JSONObject stats = arr.getJSONObject(i);
-            String name = String.valueOf(stats.get("player"));
-            String game = String.valueOf(stats.get("game"));
-            System.out.println("**" + name);
-            System.out.println("$$" + game);
-*/
-            Stats stats = new Stats();
+        for (int j = 0; j < pages; j++) {
             try {
-                objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-                stats = objectMapper.readValue(arr.get(i).toString(), Stats.class);
-                statsList.add(stats);
-            } catch (JsonProcessingException ex) {
-                Logger.getLogger(FinalProjectDatabaseDao.class.getName()).log(Level.SEVERE, null, ex);
+                response = 
+                    Unirest.get("https://free-nba.p.rapidapi.com/stats?player_ids[]=" + id + "&per_page=20&page=" + j)
+                    .header("x-rapidapi-host", "free-nba.p.rapidapi.com")
+                    .header("x-rapidapi-key", "14a972693bmsh3de8a04a00dca35p17a88bjsnca52ffc0b0fb")
+                    .asString();
+
+                JSONObject obj = new JSONObject(response.getBody());
+                JSONArray arr = obj.getJSONArray("data");
+
+                for (int i = 0; i < arr.length(); i++) {
+                    Stats stats = new Stats();
+                    try {
+                        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                        stats = objectMapper.readValue(arr.get(i).toString(), Stats.class);
+                        statsList.add(stats);
+                    } catch (JsonProcessingException ex) {
+                        Logger.getLogger(FinalProjectDatabaseDao.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } catch (kong.unirest.json.JSONException e) {
-                System.out.println("***************" + e);
+                System.out.println("**************" + e);
             }
         }
-        System.out.println(arr.length());
        
         return statsList;
     }
