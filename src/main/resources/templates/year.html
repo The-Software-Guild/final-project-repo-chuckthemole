@@ -8,44 +8,49 @@
     <link rel="stylesheet" type="text/css" media="all" href="/css/stsm.css" th:href="@{/css/stsm.css}"/>
   </head>
 
-  <body>
-      
-    <div>
-      <img src="/images/stsmlogo.png" alt="STSM logo" title="STSM logo" 
+  <body>      
+
+    <a th:href="@{/basketball/player}">
+      <img src="/images/stsmlogo.png" alt="STSM logo" title="STSM logo"
            th:src="@{/images/nbastats.PNG}" th:alt-title="#{title.application}" width="400" height="210"/>
-    </div>
+    </a>
       
     <div>
+        
+        <div class="row m-4">
+            <div class="col text-center border border-dark">
+                <h1>Success!</h1>
+            </div>
+            <br>           
+        </div>
+        
+        <div class="row m-4">
+            <p>
+                
+            </p>
+        </div>
     
-      <h2>Find NBA Player</h2>
+      <h2>Player: <span th:text="${player.first_name}"></span> <span th:text="${player.last_name}"></span></h2>
       
-      <form action="#" th:action="@{/basketball/createPlayer/}" method="POST" th:object="${player}">
+      <form action="#" th:action="@{/basketball/findStatsForYear/} + ${player.id}" method="POST" th:object="${game}">
     
         <fieldset>
           
-          <legend>Enter Data</legend>
+          <legend>Enter Year</legend>
 
           <ul th:if="${#fields.hasErrors('*')}" class="errorlist">
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
           </ul>
-
-          
-          <div>
-            <label for="first_name">
-              <span>First Name</span>
-            </label>
-            <input type="text" th:field="*{first_name}" />
-          </div>
           
           <div>
             <label for="last_name">
-              <span>Last Name</span>
+              <span>Year (YYYY)</span>
             </label>
-            <input type="text" th:field="*{last_name}" />
+            <input type="text" th:field="*{date}" />
           </div>
 
           <div class="submit">
-            <button type="submit" name="save">Find Player</button>    
+            <button type="submit" name="save">Submit</button>    
           </div>
         
         </fieldset>

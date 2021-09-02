@@ -54,7 +54,7 @@ public class FinalProjectController {
     @GetMapping("/player")
     public String getPlayerRequestForm(Model model) {
         model.addAttribute("player", new Player());
-        return "getPlayer";
+        return "index";
     }
     
     @GetMapping("/pointsForSeason")
@@ -65,6 +65,7 @@ public class FinalProjectController {
     @PostMapping("/createPlayer") 
     public String createPlayer(@ModelAttribute("player") Player player, Model model) {
         List<Player> players = service.getPlayersByName(player.getLast_name());
+        players.addAll(service.getPlayersByName(player.getFirst_name()));
         
         for (Player p : players) {
             if (p.getFirst_name().equalsIgnoreCase(player.getFirst_name())) {
@@ -72,7 +73,7 @@ public class FinalProjectController {
                     Player foundPlayer = p;
                     model.addAttribute("player", foundPlayer);
                     model.addAttribute("game", new Game());
-                    return "findPlayerSuccess";
+                    return "year";
                 }
             }
         }
