@@ -311,10 +311,14 @@ public class FinalProjectDatabaseDao implements FinalProjectDao {
             }
         }
         
-        recentStats.add(statsList);
-        addPlayer(statsList.get(0).getPlayer());
-        
-        return statsList;    
+        try {
+            recentStats.add(statsList);
+            addPlayer(statsList.get(0).getPlayer());
+            return statsList;    
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("*****" + e);
+            return new ArrayList<>();
+        }
     }
     
     private static final class RecentPlayerMapper 

@@ -91,6 +91,10 @@ public class FinalProjectController {
         model.addAttribute("player", service.getPlayer(id));
         model.addAttribute("date", game.getDate());
         
+        if (stats.isEmpty()) {
+            return "seasonError";
+        }
+        
         return "showPointsForYear";
     }
 }
